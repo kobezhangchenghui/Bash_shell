@@ -1,0 +1,17 @@
+set username [lindex $argv 0]  
+set passwd [lindex $argv 1]    
+set remoteIP [lindex $argv 2]
+set timeout 30
+
+spawn ssh $username@$remoteIP
+expect {                      
+"*yes/no" { send "yes\r"; exp_continue}  
+"*password:" { send "$passwd\r" }   
+}  
+expect "*]*"
+send "cd /\r"
+expect "*]*"
+send "mkdir zch\r"
+expect "*]*"
+send "exit\r"
+interact
